@@ -3,8 +3,22 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+    production: false,
+    keycloak: {
+        issuer: "http://localhost:8083/realms/sso2-app",
+        redirectUri: "http://localhost:4200/",
+        clientId: "sso2-app-fe",
+        scope: "openid profile email",
+        requireHttps: false,
+
+        // prefixes have to be in lowerr case
+        urlPrefixesWithBearerToken: ['http://localhost:8080/ping', 'http://localhost:8080/noBearerTokenPing']
+    }
 };
+//scope: "openid profile email offline_access",
+
+
+
 
 /*
  * For easier debugging in development mode, you can import the following file
