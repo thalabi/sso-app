@@ -2,20 +2,30 @@
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+//
+// To start ng serve in ssl mode, run:
+// ng serve --ssl --ssl-key "C:\Users\Tarif Halabi\Downloads\site-private-key.pem" --ssl-cert "C:\Users\Tarif Halabi\Downloads\localhost-certificate.pem"
+//
+
 export const environment = {
     production: false,
+    beRestServiceUrl: "https://localhost:8446",
+    // when adding or changing keycloak json, update sso-config.ts as well
     keycloak: {
-        issuer: "http://localhost:8083/realms/sso2-app",
-        redirectUri: "http://localhost:4200/",
-        clientId: "sso2-app-fe",
-        scope: "openid profile email",
-        requireHttps: false,
+        issuer: "https://localhost:8083/realms/sso2-app",
+        clientId: "sso-app-fe",
+        requireHttps: true,
 
+        // prefixes of urls to send with Bearer token
         // prefixes have to be in lowerr case
-        urlPrefixesWithBearerToken: ['http://localhost:8080/ping', 'http://localhost:8080/noBearerTokenPing']
+        urlPrefixesWithBearerToken: ['https://localhost:8446/ping']
+    },
+    idle: {
+        // times are in seconds
+        inactivityTimer: 299,
+        timeoutTimer: 1
     }
 };
-//scope: "openid profile email offline_access",
 
 
 

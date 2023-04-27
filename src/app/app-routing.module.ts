@@ -6,11 +6,12 @@ import { PingBeComponent } from './ping-be/ping-be.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 
 const routes: Routes = [
+    // order of routes is important. Router use first match
     { path: "welcome", component: WelcomeComponent },
     { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
     { path: "ping-be", component: PingBeComponent, canActivate: [AuthGuard] },
     { path: "", redirectTo: "welcome", pathMatch: "full" },
-    { path: "**", redirectTo: "welcome", pathMatch: "full" }
+    { path: "**", redirectTo: "welcome" }
 ];
 
 @NgModule({

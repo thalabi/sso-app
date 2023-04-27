@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { PingBeComponent } from './ping-be/ping-be.component';
 import { environment } from '../environments/environment';
+import { NgIdleModule } from '@ng-idle/core';
 
 @NgModule({
     declarations: [
@@ -29,7 +30,8 @@ import { environment } from '../environments/environment';
                 allowedUrls: environment.keycloak.urlPrefixesWithBearerToken,
                 sendAccessToken: true
             }
-        })
+        }),
+        NgIdleModule.forRoot()
     ],
     providers: [],
     bootstrap: [AppComponent]

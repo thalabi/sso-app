@@ -17,6 +17,11 @@
                 "build": {
                     "builder": "@angular-devkit/build-angular:browser",
                     "options": {
+                        "allowedCommonJsDependencies": [
+                            "lodash",
+                            "crypto-js",
+                            "crypto-js/hmac-sha256"
+                        ],
                         "outputPath": "dist/sso-app",
                         "index": "src/index.html",
                         "main": "src/main.ts",
@@ -39,7 +44,7 @@
                             "budgets": [
                                 {
                                     "type": "initial",
-                                    "maximumWarning": "500kb",
+                                    "maximumWarning": "700kb",
                                     "maximumError": "1mb"
                                 },
                                 {

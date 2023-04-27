@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { JwksValidationHandler, OAuthService } from 'angular-oauth2-oidc';
-import { authCodeFlowConfig } from '../sso-config';
+import { Component, Input, OnInit } from '@angular/core';
+import { OAuthService } from 'angular-oauth2-oidc';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-navbar',
@@ -8,25 +8,20 @@ import { authCodeFlowConfig } from '../sso-config';
     styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent implements OnInit {
+    @Input() oauthEventMessage: string = 'Undefined'
+    @Input() idleState: string = 'Undefined'
 
-    constructor(private oauthService: OAuthService) { }
+    constructor(private oauthService: OAuthService, private router: Router) { }
 
     ngOnInit(): void {
-        this.configureSingleSignOn();
-    }
-
-    configureSingleSignOn() {
-        this.oauthService.configure(authCodeFlowConfig);
-        this.oauthService.tokenValidationHandler = new JwksValidationHandler();
-        this.oauthService.loadDiscoveryDocumentAndTryLogin();
     }
 
     login() {
-        this.oauthService.initCodeFlow();
+        this.oauthService.initLoginFlow()
     }
 
     logout() {
-        this.oauthService.logOut();
+        this.oauthService.revokeTokenAndLogout();
     }
 
     get token() {

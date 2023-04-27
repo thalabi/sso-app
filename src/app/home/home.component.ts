@@ -12,12 +12,12 @@ export class HomeComponent implements OnInit {
     name: string = "";
     username: string = "";
     email: string = "";
+    timestamp: Date = {} as Date;
     roles: any;
 
     constructor(private oauthService: OAuthService) { }
 
     ngOnInit(): void {
-        this.configureSingleSignOn();
         const userClaims: any = this.oauthService.getIdentityClaims();
         console.log('userClaims', userClaims);
         this.name = userClaims.name ? userClaims.name : "no name";
@@ -25,13 +25,6 @@ export class HomeComponent implements OnInit {
         this.email = userClaims.email ? userClaims.email : "no email"
         const accessToken = this.oauthService.getAccessToken();
         console.log('accessToken', accessToken)
+        this.timestamp = new Date()
     }
-
-    configureSingleSignOn() {
-        this.oauthService.configure(authCodeFlowConfig);
-        this.oauthService.tokenValidationHandler = new JwksValidationHandler();
-        this.oauthService.setupAutomaticSilentRefresh();
-        this.oauthService.loadDiscoveryDocumentAndTryLogin();
-    }
-
 }

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -9,9 +10,11 @@ export class RestService {
     constructor(private http: HttpClient) { }
 
     getPing() {
-        return this.http.get('http://localhost:8080/ping');
+        console.log('getPing')
+        return this.http.get(environment.beRestServiceUrl + '/ping');
     }
     getNoBearerTokenPing() {
-        return this.http.get('http://localhost:8080/noBearerTokenPing');
+        console.log('getNoBearerTokenPing')
+        return this.http.get(environment.beRestServiceUrl + '/noBearerTokenPing');
     }
 }

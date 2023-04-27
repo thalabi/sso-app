@@ -1,13 +1,19 @@
 export const environment = {
-    production: false,
+    production: true,
+    beRestServiceUrl: "https://api.kerneldc.com:8446",
+    // when adding or changing keycloak json, update sso-config.ts as well
     keycloak: {
-        issuer: "https://f104.kerneldc.com:8443/realms/sso2-app",
-        redirectUri: "http://f104.kerneldc.com/sso2-app/",
-        clientId: "sso2-app-fe",
-        scope: "openid profile email",
-        requireHttps: false,
+        issuer: "https://auth.kerneldc.com/realms/sso2-app",
+        clientId: "sso-app-fe",
+        requireHttps: true,
 
+        // prefixes of urls to send with Bearer token
         // prefixes have to be in lowerr case
-        urlPrefixesWithBearerToken: ['http://f104.kerneldc.com/sso2-app/ping', 'http://f104.kerneldc.com/sso2-app/noBearerTokenPing']
+        urlPrefixesWithBearerToken: ["https://api.kerneldc.com:8446/ping"]
+    },
+    idle: {
+        // times are in seconds
+        inactivityTimer: 299,
+        timeoutTimer: 1
     }
 };

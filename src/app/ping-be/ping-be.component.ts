@@ -10,6 +10,8 @@ export class PingBeComponent implements OnInit {
 
     pingResponse: string = "";
     noBearerTokenPingResponse: string = "";
+    timestamp: Date = {} as Date;
+
 
     constructor(private restService: RestService,) { }
 
@@ -25,6 +27,7 @@ export class PingBeComponent implements OnInit {
                 this.noBearerTokenPingResponse = data;
                 console.log('noBearerTokenPing response', this.noBearerTokenPingResponse);
             })
+        this.timestamp = new Date()
     }
 
 
