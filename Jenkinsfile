@@ -41,7 +41,7 @@ pipeline {
                 cd ../..
                 pwd
 
-                export PATH=/usr/local/node-v18.16.1-linux-x64/bin/:$PATH
+                export PATH=/usr/local/node-v18.16.0-linux-x64/bin/:$PATH
                 npm install && node_modules/.bin/ng build
                 '''
             }
