@@ -3,17 +3,17 @@ export const environment = {
     beRestServiceUrl: '@beRestServiceUrl@',
     // when adding or changing keycloak json, update sso-config.ts as well
     keycloak: {
-        issuer: '@keycloak-issuer@',
-        clientId: '@keycloak-clientId@',
+        issuer: '@keycloak_issuer@',
+        clientId: '@keycloak_clientId@',
         requireHttps: true,
 
         // prefixes of urls to send with Bearer token
         // prefixes have to be in lowerr case
-        urlPrefixesWithBearerToken: ['@keycloak-urlPrefixesWithBearerToken@']
+        urlPrefixesWithBearerToken: ['@keycloak_urlPrefixesWithBearerToken@']
     },
     idle: {
         // times are in seconds
-        inactivityTimer: '@idle-inactivityTimer@',
-        timeoutTimer: '@idle-timeoutTimer@'
+        inactivityTimer: '@idle_inactivityTimer@',
+        timeoutTimer: '@idle_timeoutTimer@'
     }
 };
