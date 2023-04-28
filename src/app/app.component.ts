@@ -13,7 +13,7 @@ import { environment } from '../environments/environment';
 export class AppComponent {
     title = 'sso-app'
     sessionTimeoutMessage = 'Session timed out due to ' + (+environment.idle.inactivityTimer + +environment.idle.timeoutTimer) / 60 + ' minutes of inactivity'
-    ssoLogoutMessage = 'Log out initiated from another window or browser'
+    ssoLogoutMessage = 'Log out initiated from another browser window'
     oauthEventMessage: string = 'Undefined'
     idleState: string = 'Not started.'
 
