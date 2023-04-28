@@ -12,7 +12,7 @@ import { environment } from '../environments/environment';
 })
 export class AppComponent {
     title = 'sso-app'
-    sessionTimeoutMessage = 'Session timed out due to ' + (environment.idle.inactivityTimer + environment.idle.timeoutTimer) / 60 + ' minutes of inactivity'
+    sessionTimeoutMessage = 'Session timed out due to ' + (+environment.idle.inactivityTimer + +environment.idle.timeoutTimer) / 60 + ' minutes of inactivity'
     ssoLogoutMessage = 'Log out initiated from another window or browser'
     oauthEventMessage: string = 'Undefined'
     idleState: string = 'Not started.'
@@ -72,8 +72,9 @@ export class AppComponent {
     }
 
     configureIdle() {
-        this.idle.setIdle(environment.idle.inactivityTimer); // how long can they be inactive before considered idle, in seconds
-        this.idle.setTimeout(environment.idle.timeoutTimer); // how long can they be idle before considered timed out, in seconds
+        // the plus before the string converts it to number
+        this.idle.setIdle(+environment.idle.inactivityTimer); // how long can they be inactive before considered idle, in seconds
+        this.idle.setTimeout(+environment.idle.timeoutTimer); // how long can they be idle before considered timed out, in seconds
         this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES); // provide sources that will "interrupt" aka provide events indicating the user is active
 
         this.idle.onIdleStart.subscribe(() => {

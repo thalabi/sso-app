@@ -9,11 +9,11 @@
 
 export const environment = {
     production: false,
-    beRestServiceUrl: "https://localhost:8446",
+    beRestServiceUrl: 'https://localhost:8446',
     // when adding or changing keycloak json, update sso-config.ts as well
     keycloak: {
-        issuer: "https://localhost:8083/realms/sso2-app",
-        clientId: "sso-app-fe",
+        issuer: 'https://localhost:8083/realms/sso2-app',
+        clientId: 'sso-app-fe',
         requireHttps: true,
 
         // prefixes of urls to send with Bearer token
@@ -22,8 +22,8 @@ export const environment = {
     },
     idle: {
         // times are in seconds
-        inactivityTimer: 299,
-        timeoutTimer: 1
+        inactivityTimer: '299',
+        timeoutTimer: '1'
     }
 };
 
