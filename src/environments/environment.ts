@@ -18,7 +18,7 @@ export const environment = {
 
         // prefixes of urls to send with Bearer token
         // prefixes have to be in lowerr case
-        urlPrefixesWithBearerToken: ['https://localhost:8446/ping']
+        urlPrefixesWithBearerToken: ['https://localhost:8446/protected']
     },
     idle: {
         // times are in seconds

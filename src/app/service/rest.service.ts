@@ -11,10 +11,10 @@ export class RestService {
 
     getPing() {
         console.log('getPing')
-        return this.http.get(environment.beRestServiceUrl + '/ping');
+        return this.http.get(environment.beRestServiceUrl + '/protected/sandboxController/ping');
     }
     getNoBearerTokenPing() {
         console.log('getNoBearerTokenPing')
-        return this.http.get(environment.beRestServiceUrl + '/noBearerTokenPing');
+        return this.http.get(environment.beRestServiceUrl + '/sandboxController/noBearerTokenPing');
     }
 }
