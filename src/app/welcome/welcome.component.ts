@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { JwksValidationHandler, OAuthService } from 'angular-oauth2-oidc';
-import { authCodeFlowConfig } from '../sso-config';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../service/rest.service';
+import { AuthAndIdleService, UserInfo } from '../service/auth-and-idle.service';
 
 @Component({
     selector: 'app-ping-be',
@@ -8,18 +9,18 @@ import { RestService } from '../service/rest.service';
 })
 export class PingBeComponent implements OnInit {
 
-    pingResponse: string = "";
+    userInfo: UserInfo = {} as UserInfo;
     noBearerTokenPingResponse: string = "";
     timestamp: Date = {} as Date;
 
 
-    constructor(private restService: RestService,) { }
+    constructor(private restService: RestService, private authService: AuthAndIdleService) { }
 
     ngOnInit(): void {
-        this.restService.getPing()
-            .subscribe((data: any) => {
-                this.pingResponse = data;
-                console.log('ping response', this.pingResponse);
+        this.authService.getUserInfo()
+            .subscribe((userInfo: UserInfo) => {
+                this.userInfo = userInfo;
+                console.log('userInfo', this.userInfo);
             })
         //getPingNoBearerToken
         this.restService.getNoBearerTokenPing()

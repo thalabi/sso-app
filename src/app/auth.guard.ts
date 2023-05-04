@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { Observable } from 'rxjs';
+import { AuthAndIdleService } from './service/auth-and-idle.service';
 
 @Injectable({
     providedIn: 'root'
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class AuthGuard implements CanActivate {
 
     constructor(
-        private oauthService: OAuthService,
+        private authAndIdleService: AuthAndIdleService,
         private router: Router) {
 
     }
@@ -17,9 +17,7 @@ export class AuthGuard implements CanActivate {
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
-        var hasIdToken = this.oauthService.hasValidIdToken();
-        var hasAccessToken = this.oauthService.hasValidAccessToken();
-        if (hasIdToken && hasAccessToken) {
+        if (this.authAndIdleService.isLoggedIn()) {
             return true;
         } else {
             return false;

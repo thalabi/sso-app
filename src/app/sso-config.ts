@@ -34,5 +34,5 @@ export const authCodeFlowConfig: AuthConfig = {
     sessionChecksEnabled: true,
 
 
-    showDebugInformation: true,
+    showDebugInformation: true, // Also requires enabling "Verbose" level in devtools
 };

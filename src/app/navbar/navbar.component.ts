@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { OAuthService } from 'angular-oauth2-oidc';
 import { Router } from '@angular/router';
+import { AuthAndIdleService } from '../service/auth-and-idle.service';
 
 @Component({
     selector: 'app-navbar',
@@ -11,21 +11,20 @@ export class NavbarComponent implements OnInit {
     @Input() oauthEventMessage: string = 'Undefined'
     @Input() idleState: string = 'Undefined'
 
-    constructor(private oauthService: OAuthService, private router: Router) { }
+    constructor(private authAndIdleService: AuthAndIdleService, private router: Router) { }
 
     ngOnInit(): void {
     }
 
     login() {
-        this.oauthService.initLoginFlow()
+        this.authAndIdleService.login()
     }
 
     logout() {
-        this.oauthService.revokeTokenAndLogout();
+        this.authAndIdleService.logout();
     }
 
-    get token() {
-        let claims: any = this.oauthService.getIdentityClaims();
-        return claims ? claims : null;
+    get loggedIn() {
+        return this.authAndIdleService.isLoggedIn()
     }
 }
