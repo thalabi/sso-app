@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { environment } from '../environments/environment';
-import { AuthAndIdleService } from './service/auth-and-idle.service';
 
 @Component({
     selector: 'app-root',
@@ -14,10 +13,10 @@ export class AppComponent {
     oauthEventMessage: string = 'Undefined'
     idleState: string = 'Not started.'
 
-    constructor(private authService: AuthAndIdleService) { }
+    constructor() {
+        console.log('constructor')
+    }
 
     ngOnInit(): void {
-        this.authService.configureSingleSignOn()
-        this.authService.configureIdle()
     }
 }

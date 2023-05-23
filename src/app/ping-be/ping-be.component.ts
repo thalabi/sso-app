@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../service/rest.service';
-import { AuthAndIdleService, UserInfo } from '../service/auth-and-idle.service';
+import { AuthAndIdleService, UserInfo } from '../auth/auth-and-idle.service';
 
 @Component({
     selector: 'app-ping-be',

@@ -8,7 +8,7 @@ node_modules\.bin\ng add @ng-idle/core
 
 To run in development, run:
 
-node_modules\.bin\ng serve --ssl --ssl-key "C:\ssl\site-private-key.pem" --ssl-cert "C:\ssl\localhost-certificate.pem"
+node_modules\.bin\ng serve
 
 To build, run
 node_modules\.bin\ng build

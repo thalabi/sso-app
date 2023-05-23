@@ -1,5 +1,5 @@
 import { AuthConfig } from 'angular-oauth2-oidc';
-import { environment } from '../environments/environment';
+import { environment } from '../../environments/environment';
 
 export const authCodeFlowConfig: AuthConfig = {
     // Url of the Identity Provider
@@ -32,7 +32,6 @@ export const authCodeFlowConfig: AuthConfig = {
     requireHttps: environment.keycloak.requireHttps,
     // enable session_terminated events 
     sessionChecksEnabled: true,
-
 
     showDebugInformation: true, // Also requires enabling "Verbose" level in devtools
 };
