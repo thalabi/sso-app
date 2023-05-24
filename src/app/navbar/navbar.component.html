@@ -1,8 +1,9 @@
 <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
     <div class="container">
         <a class="navbar-brand" routerLink="/welcome">SSoApp</a>
-        <span>oauthEventMessage: {{oauthEventMessage}} idleState: {{idleState}} canActivateProtectedRoutes:
-            {{canActivateProtectedRoutes$ | async }}</span>
+        <span>oauthEventMessage: {{oauthEventMessage}}, idleState: {{idleState}}, isAuthenticated: {{isAuthenticated$ |
+            async}}, isDoneLoading: {{isDoneLoading$ | async}}, canActivateProtectedRoutes:
+            {{canActivateProtectedRoutes$ | async }} </span>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
             aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
