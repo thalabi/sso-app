@@ -14,7 +14,7 @@ export interface UserInfo { username: string, firstName: string, lastName: strin
 })
 export class AuthAndIdleService {
     sessionTimeoutMessage = 'Session timed out due to ' + (+environment.idle.inactivityTimer + +environment.idle.timeoutTimer) / 60 + ' minutes of inactivity'
-    ssoLogoutMessage = 'Log out initiated from another browser window'
+    ssoLogoutMessage = 'Session logged out. Please login again'
     idleState: string = 'Not started.'
 
     private isAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
@@ -59,10 +59,13 @@ export class AuthAndIdleService {
                     console.log('access token will expire at:', expiration)
                     break
                 }
+                // when user logs from another window and revokes the token
+                // logout due to token revoked by another sign on
                 case 'session_terminated':
-                case 'token_refresh_error': {
-                    // when user logs from another window and revokes the token
-                    // logout due to token revoked by another sign on
+                case 'token_refresh_error':
+                // or
+                // user went offline and missed the auto access token refresh
+                case 'token_revoke_error': {
                     this.oauthService.revokeTokenAndLogout(
                         {
                             client_id: this.oauthService.clientId,
