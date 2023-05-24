@@ -12,10 +12,10 @@ export class NavbarComponent implements OnInit {
     @Input() oauthEventMessage: string = 'Undefined'
     @Input() idleState: string = 'Undefined'
 
-    isAuthenticated$: Observable<boolean>
+    canActivateProtectedRoutes$: Observable<boolean>
 
     constructor(private authAndIdleService: AuthAndIdleService, private router: Router) {
-        this.isAuthenticated$ = authAndIdleService.isAuthenticated$;
+        this.canActivateProtectedRoutes$ = authAndIdleService.canActivateProtectedRoutes$;
     }
 
     ngOnInit(): void {
