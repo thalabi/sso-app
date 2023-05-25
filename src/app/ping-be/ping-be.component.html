@@ -5,4 +5,7 @@
 <div>isAuthenticated: {{isAuthenticated$ | async}}</div>
 <div>isDoneLoading: {{isDoneLoading$ | async}}</div>
 <div>canActivateProtectedRoutes: {{canActivateProtectedRoutes$ | async }}</div>
-<div>oAuthEventArray: {{oAuthEventArray$ | async }} </div>
+<div>oAuthEventArray: {{oAuthEventArray$ | async}}</div>
+<ul>
+    <li *ngFor="let oAuthEvent of (oAuthEventArray$ | async); index as i">{{i}}: {{oAuthEvent}}</li>
+</ul>

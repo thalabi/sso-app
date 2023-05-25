@@ -14,7 +14,7 @@ export interface UserInfo { username: string, firstName: string, lastName: strin
 })
 export class AuthAndIdleService {
     sessionTimeoutMessage = 'Session timed out due to ' + (+environment.idle.inactivityTimer + +environment.idle.timeoutTimer) / 60 + ' minutes of inactivity'
-    ssoLogoutMessage = 'Session logged out. Please login again'
+    ssoLogoutMessage = 'Session logged ended. Please login again'
     idleState: string = 'Not started.'
 
     // test begin
@@ -62,8 +62,9 @@ export class AuthAndIdleService {
                 console.log('oAuthEvent:', oAuthEvent)
                 //console.log('hasValidIdToken', this.oauthService.hasValidIdToken())
                 // test begin
-                oAuthEventArray.push(oAuthEvent)
+                oAuthEventArray.push(oAuthEvent + ' at ' + (new Date()).toLocaleTimeString())
                 console.log('oAuthEventArray', oAuthEventArray)
+                new Date()
                 this.oAuthEventArraySubject$.next(oAuthEventArray)
                 // test end
             }
@@ -85,6 +86,9 @@ export class AuthAndIdleService {
                         {
                             client_id: this.oauthService.clientId,
                             post_logout_redirect_uri: this.oauthService.redirectUri + '?logoutMessage=' + this.ssoLogoutMessage
+                                // test begin
+                                + ' oAuthEvent: ' + oAuthEvent
+                            // test end
                         }
                     )
                     break
