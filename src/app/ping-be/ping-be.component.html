@@ -1,3 +1,8 @@
 <p>{{userInfo| json}}</p>
 <p>{{noBearerTokenPingResponse| json}}</p>
 <div class="lead">Timestamp: {{timestamp | date: 'yyyy/MM/dd HH:mm:ss'}}</div>
+
+<div>isAuthenticated: {{isAuthenticated$ | async}}</div>
+<div>isDoneLoading: {{isDoneLoading$ | async}}</div>
+<div>canActivateProtectedRoutes: {{canActivateProtectedRoutes$ | async }}</div>
+<div>oAuthEventArray: {{oAuthEventArray$ | async }} </div>

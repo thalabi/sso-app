@@ -17,6 +17,12 @@ export class AuthAndIdleService {
     ssoLogoutMessage = 'Session logged out. Please login again'
     idleState: string = 'Not started.'
 
+    // test begin
+    private oAuthEventArraySubject$ = new BehaviorSubject<string[]>([]);
+    public oAuthEventArray$ = this.oAuthEventArraySubject$.asObservable();
+
+    // test end
+
     private isAuthenticatedSubject$ = new BehaviorSubject<boolean>(false);
     public isAuthenticated$ = this.isAuthenticatedSubject$.asObservable();
 
@@ -36,24 +42,33 @@ export class AuthAndIdleService {
     public canActivateProtectedRoutes$: Observable<boolean> = combineLatest([
         this.isAuthenticated$,
         this.isDoneLoading$
-    ]).pipe(tap(values => console.log('combineLatest from this.isAuthenticated$ and this.isDoneLoading$', values)), map(values => values.every(b => b)));
+    ]).pipe(
+        //tap(values => console.log('combineLatest from this.isAuthenticated$ and this.isDoneLoading$', values)),
+        map(values => values.every(b => b))
+    );
 
     constructor(private oauthService: OAuthService, private router: Router, private idle: Idle, private authRestService: AuthRestService) {
         console.log('constructor')
 
+        let oAuthEventArray: string[] = [];
         // refresh access token after 75% of the token's life time is over
-        this.oauthService.events.subscribe(({ type: oauthEvent }: OAuthEvent) => {
+        this.oauthService.events.subscribe(({ type: oAuthEvent }: OAuthEvent) => {
 
-            console.log('this.oauthService.hasValidAccessToken()', this.oauthService.hasValidAccessToken())
-            console.log('this.isAuthenticatedSubject$.next(', this.oauthService.hasValidAccessToken(), ')')
+            //console.log('this.oauthService.hasValidAccessToken()', this.oauthService.hasValidAccessToken())
+            //console.log('this.isAuthenticatedSubject$.next(', this.oauthService.hasValidAccessToken(), ')')
             this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken());
 
-            if (oauthEvent !== 'session_unchanged') {
-                console.log('oauthEvent:', oauthEvent)
+            if (oAuthEvent !== 'session_unchanged') {
+                console.log('oAuthEvent:', oAuthEvent)
                 //console.log('hasValidIdToken', this.oauthService.hasValidIdToken())
+                // test begin
+                oAuthEventArray.push(oAuthEvent)
+                console.log('oAuthEventArray', oAuthEventArray)
+                this.oAuthEventArraySubject$.next(oAuthEventArray)
+                // test end
             }
-            //this.oauthEventMessage = new Date().toTimeString().slice(3, 8) + " " + oauthEvent
-            switch (oauthEvent) {
+            //this.oAuthEventMessage = new Date().toTimeString().slice(3, 8) + " " + oAuthEvent
+            switch (oAuthEvent) {
                 case 'token_received': {
                     let expiration = new Date(this.oauthService.getAccessTokenExpiration()).toTimeString().slice(0, 8)
                     console.log('access token will expire at:', expiration)
