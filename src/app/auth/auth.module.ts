@@ -5,10 +5,11 @@ import { authAppInitializerFactory } from './auth-app-initializer.factory';
 import { authCodeFlowConfig } from './auth-config';
 //import { AuthGuardWithForcedLogin } from './auth-guard-with-forced-login.service';
 import { AuthAndIdleService } from './auth-and-idle.service';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard } from './auth-guard.service';
 import { NgIdleModule } from '@ng-idle/core';
 import { authModuleConfig } from './auth-module-config';
 import { AuthRestService } from './auth-rest.service';
+import { AuthGuardWithForcedLogin } from './auth-guard-with-forced-login.service';
 
 // We need a factory since localStorage is not available at AOT build time
 export function storageFactory(): OAuthStorage {
@@ -25,7 +26,7 @@ export function storageFactory(): OAuthStorage {
         AuthRestService,
         AuthAndIdleService,
         AuthGuard,
-        //AuthGuardWithForcedLogin,
+        AuthGuardWithForcedLogin,
     ],
 })
 export class AuthModule {
