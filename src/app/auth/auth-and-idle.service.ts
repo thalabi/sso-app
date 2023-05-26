@@ -14,7 +14,7 @@ export interface UserInfo { username: string, firstName: string, lastName: strin
 })
 export class AuthAndIdleService {
     sessionTimeoutMessage = 'Session timed out due to ' + (+environment.idle.inactivityTimer + +environment.idle.timeoutTimer) / 60 + ' minutes of inactivity'
-    ssoLogoutMessage = 'Session logged ended. Please login again'
+    ssoLogoutMessage = 'Session ended. Please login again'
     idleState: string = 'Not started.'
 
     // test begin
@@ -75,20 +75,41 @@ export class AuthAndIdleService {
                     console.log('access token will expire at:', expiration)
                     break
                 }
-                // when user logs from another window and revokes the token
+                // when user logs out from another window and revokes the token
                 // logout due to token revoked by another sign on
-                case 'session_terminated':
+                case 'jwks_load_error':
+                case 'invalid_nonce_in_state':
+                case 'discovery_document_load_error':
+                case 'discovery_document_validation_error':
+                case 'user_profile_load_error':
+                case 'token_error':
+                case 'code_error':
                 case 'token_refresh_error':
-                // or
-                // user went offline and missed the auto access token refresh
-                case 'token_revoke_error': {
+                case 'silent_refresh_error':
+                case 'silent_refresh_timeout':
+                case 'token_validation_error':
+                case 'session_changed':
+                case 'session_error':
+                case 'session_terminated':
+                case 'popup_blocked':
                     this.oauthService.revokeTokenAndLogout(
                         {
                             client_id: this.oauthService.clientId,
                             post_logout_redirect_uri: this.oauthService.redirectUri + '?logoutMessage=' + this.ssoLogoutMessage
                                 // test begin
-                                + ' oAuthEvent: ' + oAuthEvent
-                            // test end
+                                + ' (oAuthEvent: ' + oAuthEvent + ')'
+                        }
+                    )
+                    break
+                // or
+                // user went offline and missed the auto token refresh
+                case 'token_revoke_error': {
+                    this.oauthService.logOut(
+                        {
+                            client_id: this.oauthService.clientId,
+                            post_logout_redirect_uri: this.oauthService.redirectUri + '?logoutMessage=' + this.ssoLogoutMessage
+                                // test begin
+                                + ' (oAuthEvent: ' + oAuthEvent + ')'
                         }
                     )
                     break
