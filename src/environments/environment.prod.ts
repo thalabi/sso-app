@@ -1,7 +1,7 @@
 export const environment = {
     production: true,
     beRestServiceUrl: '@beRestServiceUrl@',
-    // when adding or changing keycloak json, update sso-config.ts as well
+    // when adding or changing keycloak json, update auth-config.ts and auth-module-config.ts as well
     keycloak: {
         issuer: '@keycloak_issuer@',
         clientId: '@keycloak_clientId@',

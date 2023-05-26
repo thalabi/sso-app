@@ -10,7 +10,7 @@
 export const environment = {
     production: false,
     beRestServiceUrl: 'https://localhost:8446',
-    // when adding or changing keycloak json, update sso-config.ts as well
+    // when adding or changing keycloak json, update auth-config.ts and auth-module-config.ts as well
     keycloak: {
         issuer: 'https://localhost:8083/realms/sso2-app',
         clientId: 'sso-app-fe',
