@@ -71,8 +71,12 @@ export class AuthAndIdleService {
             //this.oAuthEventMessage = new Date().toTimeString().slice(3, 8) + " " + oAuthEvent
             switch (oAuthEvent) {
                 case 'token_received': {
-                    let expiration = new Date(this.oauthService.getAccessTokenExpiration()).toTimeString().slice(0, 8)
-                    console.log('access token will expire at:', expiration)
+                    const expirationDate = new Date(this.oauthService.getAccessTokenExpiration())
+                    const expirationTime = expirationDate.toTimeString().slice(0, 8)
+                    let refreshDate = new Date(expirationDate)
+                    refreshDate.setSeconds(expirationDate.getSeconds() - 75) // 75% of 5 minutes is 225 seconds. subtract 225 from 300 is 75
+                    const refreshTime = refreshDate.toTimeString().slice(0, 8)
+                    console.log('access token will expire at: %s, will refresh at: %s', expirationTime, refreshTime)
                     break
                 }
                 // when user logs out from another window and revokes the token
@@ -157,8 +161,8 @@ export class AuthAndIdleService {
                     }
                 }
             })
-            .catch(() => {
-                console.log('catch()')
+            .catch((error) => {
+                console.log('catch(), error:', error)
                 console.log('this.isDoneLoadingSubject$.next(true)')
                 this.isDoneLoadingSubject$.next(true)
             })
