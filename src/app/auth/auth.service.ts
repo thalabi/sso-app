@@ -12,10 +12,8 @@ export interface UserInfo { username: string, firstName: string, lastName: strin
 @Injectable({
     providedIn: 'root'
 })
-export class AuthAndIdleService {
-    sessionTimeoutMessage = 'Session timed out due to ' + (+environment.idle.inactivityTimer + +environment.idle.timeoutTimer) / 60 + ' minutes of inactivity'
+export class AuthService {
     ssoLogoutMessage = 'Session ended. Please login again'
-    idleState: string = 'Not started.'
 
     // test begin
     private oAuthEventArraySubject$ = new BehaviorSubject<string[]>([]);
@@ -47,7 +45,11 @@ export class AuthAndIdleService {
         map(values => values.every(b => b))
     );
 
-    constructor(private oauthService: OAuthService, private router: Router, private idle: Idle, private authRestService: AuthRestService) {
+    public isLoggedIn(): boolean {
+        return this.oauthService.hasValidIdToken() && this.oauthService.hasValidAccessToken()
+
+    }
+    constructor(private oauthService: OAuthService, private router: Router, private authRestService: AuthRestService) {
         console.log('constructor')
 
         let oAuthEventArray: string[] = [];
@@ -108,14 +110,7 @@ export class AuthAndIdleService {
                 // or
                 // user went offline and missed the auto token refresh
                 case 'token_revoke_error': {
-                    this.oauthService.logOut(
-                        {
-                            client_id: this.oauthService.clientId,
-                            post_logout_redirect_uri: this.oauthService.redirectUri + '?logoutMessage=' + this.ssoLogoutMessage
-                                // test begin
-                                + ' (oAuthEvent: ' + oAuthEvent + ')'
-                        }
-                    )
+                    this.logout(this.ssoLogoutMessage + ' (oAuthEvent: ' + oAuthEvent + ')')
                     break
                 }
                 default: {
@@ -153,8 +148,6 @@ export class AuthAndIdleService {
                     const username: string = this.getUsername()
                     console.log('username:', username)
 
-                    this.idle.watch()
-
                     // dynamic routing based on username
                     if (username === 'sso2user1') {
                         this.router.navigate(['/ping-be']);
@@ -168,44 +161,21 @@ export class AuthAndIdleService {
             })
     }
 
-    configureIdle() {
-        // the plus before the string converts it to number
-        this.idle.setIdle(+environment.idle.inactivityTimer); // how long can they be inactive before considered idle, in seconds
-        this.idle.setTimeout(+environment.idle.timeoutTimer); // how long can they be idle before considered timed out, in seconds
-        this.idle.setInterrupts(DEFAULT_INTERRUPTSOURCES); // provide sources that will "interrupt" aka provide events indicating the user is active
-
-        this.idle.onIdleStart.subscribe(() => {
-            this.idleState = 'idleStart'
-            console.log('idleState', this.idleState)
-        });
-        this.idle.onIdleEnd.subscribe(() => {
-            this.idleState = 'idleEnd'
-            console.log('idleState', this.idleState)
-        });
-        this.idle.onTimeoutWarning.subscribe((secondsLeft: number) => {
-            this.idleState = 'timeoutWarning, seconds left' + secondsLeft
-            console.log('idleState', this.idleState)
-        });
-        this.idle.onTimeout.subscribe(() => {
-            this.idleState = 'timeout'
-            console.log('idleState', this.idleState)
-
-            // force logout due to idle timeout
-            this.oauthService.revokeTokenAndLogout(
-                {
-                    client_id: this.oauthService.clientId,
-                    post_logout_redirect_uri: this.oauthService.redirectUri + '?logoutMessage=' + this.sessionTimeoutMessage
-                }
-            )
-        })
-    }
-
     login() {
         this.oauthService.initLoginFlow()
     }
 
-    logout() {
-        this.oauthService.revokeTokenAndLogout();
+    logout(logoutMessage?: string) {
+        if (logoutMessage) {
+            this.oauthService.revokeTokenAndLogout(
+                {
+                    client_id: this.oauthService.clientId,
+                    post_logout_redirect_uri: this.oauthService.redirectUri + '?logoutMessage=' + logoutMessage
+                }
+            )
+        } else {
+            this.oauthService.revokeTokenAndLogout()
+        }
     }
 
     getUserInfo(): Observable<UserInfo> {

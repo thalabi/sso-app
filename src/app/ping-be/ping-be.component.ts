@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { RestService } from '../service/rest.service';
-import { AuthAndIdleService, UserInfo } from '../auth/auth-and-idle.service';
+import { AuthService, UserInfo } from '../auth/auth.service';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -21,19 +21,19 @@ export class PingBeComponent implements OnInit {
     oAuthEventArray$: Observable<string[]> | undefined;
     // test end
 
-    constructor(private restService: RestService, private authAndIdleService: AuthAndIdleService) { }
+    constructor(private restService: RestService, private authService: AuthService) { }
 
     ngOnInit(): void {
 
-        this.canActivateProtectedRoutes$ = this.authAndIdleService.canActivateProtectedRoutes$;
-        this.isAuthenticated$ = this.authAndIdleService.isAuthenticated$;
-        this.isDoneLoading$ = this.authAndIdleService.isDoneLoading$;
+        this.canActivateProtectedRoutes$ = this.authService.canActivateProtectedRoutes$;
+        this.isAuthenticated$ = this.authService.isAuthenticated$;
+        this.isDoneLoading$ = this.authService.isDoneLoading$;
         // test begin
-        this.oAuthEventArray$ = this.authAndIdleService.oAuthEventArray$;
+        this.oAuthEventArray$ = this.authService.oAuthEventArray$;
         // test end
 
 
-        this.authAndIdleService.getUserInfo()
+        this.authService.getUserInfo()
             .subscribe((userInfo: UserInfo) => {
                 this.userInfo = userInfo;
                 console.log('userInfo', this.userInfo);

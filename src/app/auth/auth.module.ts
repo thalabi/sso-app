@@ -4,7 +4,7 @@ import { AuthConfig, OAuthModule, OAuthModuleConfig, OAuthStorage } from 'angula
 import { authAppInitializerFactory } from './auth-app-initializer.factory';
 import { authCodeFlowConfig } from './auth-config';
 //import { AuthGuardWithForcedLogin } from './auth-guard-with-forced-login.service';
-import { AuthAndIdleService } from './auth-and-idle.service';
+import { AuthService } from './auth.service';
 import { AuthGuard } from './auth-guard.service';
 import { NgIdleModule } from '@ng-idle/core';
 import { authModuleConfig } from './auth-module-config';
@@ -19,12 +19,11 @@ export function storageFactory(): OAuthStorage {
 @NgModule({
     imports: [
         HttpClientModule,
-        OAuthModule.forRoot(),
-        NgIdleModule.forRoot()
+        OAuthModule.forRoot()
     ],
     providers: [
         AuthRestService,
-        AuthAndIdleService,
+        AuthService,
         AuthGuard,
         AuthGuardWithForcedLogin,
     ],
@@ -34,7 +33,7 @@ export class AuthModule {
         return {
             ngModule: AuthModule,
             providers: [
-                { provide: APP_INITIALIZER, useFactory: authAppInitializerFactory, deps: [AuthAndIdleService], multi: true },
+                { provide: APP_INITIALIZER, useFactory: authAppInitializerFactory, deps: [AuthService], multi: true },
                 { provide: AuthConfig, useValue: authCodeFlowConfig },
                 { provide: OAuthModuleConfig, useValue: authModuleConfig },
                 { provide: OAuthStorage, useFactory: storageFactory },

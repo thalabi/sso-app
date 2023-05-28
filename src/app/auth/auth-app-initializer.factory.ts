@@ -1,6 +1,6 @@
-import { AuthAndIdleService } from './auth-and-idle.service';
+import { AuthService } from './auth.service';
 
-export function authAppInitializerFactory(authAndIdleService: AuthAndIdleService): () => Promise<void> {
+export function authAppInitializerFactory(authService: AuthService): () => Promise<void> {
     console.log('authAppInitializerFactory')
-    return () => authAndIdleService.runInitialLoginSequence();
+    return () => authService.runInitialLoginSequence();
 }

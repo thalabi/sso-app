@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { PingBeComponent } from './ping-be/ping-be.component';
 import { AuthModule } from './auth/auth.module';
 import { RestService } from './service/rest.service';
+import { NgIdleModule } from '@ng-idle/core';
 
 @NgModule({
     declarations: [
@@ -22,6 +23,7 @@ import { RestService } from './service/rest.service';
     imports: [
         BrowserModule,
         AuthModule.forRoot(),
+        NgIdleModule.forRoot(),
         AppRoutingModule,
         HttpClientModule,
     ],

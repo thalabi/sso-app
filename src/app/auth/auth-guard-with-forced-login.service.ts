@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter, switchMap, tap } from 'rxjs/operators';
-import { AuthAndIdleService } from './auth-and-idle.service';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthGuardWithForcedLogin implements CanActivate {
 
 
     constructor(
-        private authAndIdleService: AuthAndIdleService,
+        private authService: AuthService,
     ) {
     }
 
@@ -18,10 +18,10 @@ export class AuthGuardWithForcedLogin implements CanActivate {
         state: RouterStateSnapshot,
     ): Observable<boolean> {
         console.log('canActivate')
-        return this.authAndIdleService.isDoneLoading$.pipe(
+        return this.authService.isDoneLoading$.pipe(
             filter(isDone => isDone),
-            switchMap(_ => this.authAndIdleService.isAuthenticated$),
-            tap(isAuthenticated => isAuthenticated || this.authAndIdleService.login(/*state.url*/)),
+            switchMap(_ => this.authService.isAuthenticated$),
+            tap(isAuthenticated => isAuthenticated || this.authService.login(/*state.url*/)),
         );
     }
 }
