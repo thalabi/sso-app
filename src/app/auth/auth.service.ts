@@ -14,6 +14,7 @@ export interface UserInfo { username: string, firstName: string, lastName: strin
 })
 export class AuthService {
     ssoLogoutMessage = 'Session ended. Please login again'
+    abnormalLogoutMessage = 'Something went wrong. Session ended'
 
     // test begin
     private oAuthEventArraySubject$ = new BehaviorSubject<string[]>([]);
@@ -83,6 +84,10 @@ export class AuthService {
                 }
                 // when user logs out from another window and revokes the token
                 // logout due to token revoked by another sign on
+                case 'token_refresh_error': {
+                    this.logout(this.ssoLogoutMessage)
+                    break
+                }
                 case 'jwks_load_error':
                 case 'invalid_nonce_in_state':
                 case 'discovery_document_load_error':
@@ -90,29 +95,16 @@ export class AuthService {
                 case 'user_profile_load_error':
                 case 'token_error':
                 case 'code_error':
-                case 'token_refresh_error':
                 case 'silent_refresh_error':
                 case 'silent_refresh_timeout':
                 case 'token_validation_error':
+                case 'token_revoke_error':
                 case 'session_changed':
                 case 'session_error':
                 case 'session_terminated':
                 case 'popup_blocked':
-                    this.oauthService.revokeTokenAndLogout(
-                        {
-                            client_id: this.oauthService.clientId,
-                            post_logout_redirect_uri: this.oauthService.redirectUri + '?logoutMessage=' + this.ssoLogoutMessage
-                                // test begin
-                                + ' (oAuthEvent: ' + oAuthEvent + ')'
-                        }
-                    )
+                    this.logout(this.abnormalLogoutMessage + ' (oAuthEvent: ' + oAuthEvent + ')')
                     break
-                // or
-                // user went offline and missed the auto token refresh
-                case 'token_revoke_error': {
-                    this.logout(this.ssoLogoutMessage + ' (oAuthEvent: ' + oAuthEvent + ')')
-                    break
-                }
                 default: {
                     break
                 }
