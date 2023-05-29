@@ -85,6 +85,7 @@ export class AuthService {
                 // when user logs out from another window and revokes the token
                 // logout due to token revoked by another sign on
                 case 'token_refresh_error': {
+                    console.log('about to logout user due to token_refresh_error')
                     this.logout(this.ssoLogoutMessage)
                     break
                 }
@@ -99,12 +100,12 @@ export class AuthService {
                 case 'silent_refresh_timeout':
                 case 'token_validation_error':
                 case 'token_revoke_error':
-                case 'session_changed':
                 case 'session_error':
-                case 'session_terminated':
                 case 'popup_blocked':
                     this.logout(this.abnormalLogoutMessage + ' (oAuthEvent: ' + oAuthEvent + ')')
                     break
+                case 'session_changed':
+                case 'session_terminated':
                 default: {
                     break
                 }
@@ -158,6 +159,9 @@ export class AuthService {
     }
 
     logout(logoutMessage?: string) {
+        console.log('logoutMessage', logoutMessage)
+        console.log('this.oauthService.clientId', this.oauthService.clientId)
+        console.log('this.oauthService.redirectUri', this.oauthService.redirectUri)
         if (logoutMessage) {
             this.oauthService.revokeTokenAndLogout(
                 {
