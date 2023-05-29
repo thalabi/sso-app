@@ -11,7 +11,7 @@ const routes: Routes = [
     { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
     { path: "ping-be", component: PingBeComponent, canActivate: [AuthGuard] },
 
-    { path: "", redirectTo: "welcome", pathMatch: "full" },
+    { path: "", redirectTo: "welcome", pathMatch: "full" }, // don't include leading slash otherwise logoutMeassge query param will not work
     { path: "**", redirectTo: "welcome" }
 ];
 
